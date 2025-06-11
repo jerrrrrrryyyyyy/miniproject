@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Complaint</title>
+</head>
+<body>
+    <h1>Add Complaint</h1>
+    <form action="/adddata" method="post">
+        <label for="headline">Complaint Headline:</label>
+        <input type="text" id="headline" name="headline" required>
+        <br>
+        <label for="text">Complaint Text:</label>
+        <textarea id="text" name="text" required></textarea>
+        <br>
+        <label for="status">Complaint Status:</label>
+        <select id="status" name="status" required>
+            <option value="submitted">Submitted</option>
+            <option value="seen">Seen</option>
+            <option value="resolved">Resolved</option>
+        </select>
+        <br>
+        <input type="submit" value="Submit">
+    </form> 
+</body>
+</html>

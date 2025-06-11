@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint page</title>
+</head>
+   <body>
+        <h1>Complaint Management System</h1>
+        <a href="/adddata">ADD</a>
+        <br>
+      <table>
+         <thead>
+            <th>Complaint Id</th>
+            <th>Heading</th>
+            <th>Description</th>
+            <th>Status</th>
+         </thead>
+         {% for data in profiles %}
+         <tbody>
+            <td>{{data.complaint_id}}</td>
+            <td>{{data.complaint_headline}}</td>
+            <td>{{data.complaint_text}}</td>
+            <td>{{data.complaint_status}}</td>
+         </tbody>
+         {% endfor%}
+      </table>
+   </body>
+
+</html>
