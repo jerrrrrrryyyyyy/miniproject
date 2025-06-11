@@ -6,7 +6,8 @@ app = Flask(__name__, template_folder = 'templates')  # Create a Flask web appli
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///complaints.db'  # Configuration of database connection (SQLite)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Turn off modification tracking (improves performance)
 
-db = SQLAlchemy(app)  # Create a database object that will be used to manage the database
+db = SQLAlchemy(app)  
+# Create a database object that will be used to manage the database
 
 # Define a database model for storing complaints
 class Complaint(db.Model):

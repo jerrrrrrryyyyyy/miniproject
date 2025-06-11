@@ -16,14 +16,16 @@
             <th>Description</th>
             <th>Status</th>
          </thead>
-         {% for data in profiles %}
+         {% for data in complaints %}
          <tbody>
             <td>{{data.complaint_id}}</td>
             <td>{{data.complaint_headline}}</td>
             <td>{{data.complaint_text}}</td>
             <td>{{data.complaint_status}}</td>
+            <br>
+            <td><a href="/delete/{{data.complaint_id}}" type="button">Delete</a></td>
          </tbody>
-         {% endfor%}
+         {% endfor %}
       </table>
    </body>
 

@@ -7,15 +7,15 @@
 </head>
 <body>
     <h1>Add Complaint</h1>
-    <form action="/adddata" method="post">
-        <label for="headline">Complaint Headline:</label>
-        <input type="text" id="headline" name="headline" required>
+    <form action="/add" method="post">
+        <label for="complaint_headline">Complaint Headline:</label>
+        <input type="text" id="complaint_headline" name="complaint_headline" required>
         <br>
-        <label for="text">Complaint Text:</label>
-        <textarea id="text" name="text" required></textarea>
+        <label for="complaint_text">Complaint Text:</label>
+        <textarea id="complaint_text" name="complaint_text" required></textarea>
         <br>
-        <label for="status">Complaint Status:</label>
-        <select id="status" name="status" required>
+        <label for="complaint_status">Complaint Status:</label>
+        <select id="complaint_status" name="complaint_status" required>
             <option value="submitted">Submitted</option>
             <option value="seen">Seen</option>
             <option value="resolved">Resolved</option>
