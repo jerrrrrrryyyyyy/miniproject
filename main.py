@@ -15,8 +15,17 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
+# Route to display all complaints on the home page
+@app.route('/')
+@login_required
+def index():
+    comp = Complaint.query.all()
+    return render_template('index.html', complaints = comp)
+
+
+
 class Users(UserMixin, db.Model):
-    user_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
 
@@ -36,7 +45,7 @@ def login():
 
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for("/"))
+            return redirect(url_for("index"))
         else:
             return render_template("login.html", error="Invalid username or password")
 
@@ -57,13 +66,8 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect(url_for("/"))
+        return redirect(url_for("login"))
     
-    return render_template("signup.html")
-
-# Home route
-@app.route("/return")
-def home():
     return render_template("signup.html")
 
 # Logout route
@@ -71,7 +75,10 @@ def home():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("home"))
+    return redirect(url_for("login"))
+
+
+
 
 # Define a database model for storing complaints
 class Complaint(db.Model):
@@ -80,13 +87,6 @@ class Complaint(db.Model):
     complaint_headline = db.Column(db.String(120),unique = False, nullable = False)
     complaint_text = db.Column(db.String(500),unique = False, nullable = False)
     complaint_status = db.Column(db.String(50), unique = False, nullable = False)
-
-
-# Route to display all complaints on the home page
-@app.route('/')
-def index():
-    comp = Complaint.query.all()
-    return render_template('index.html', complaints = comp)
 
 @app.route('/adddata')
 def add_data():
@@ -117,7 +117,7 @@ def erase(id):  # Route to delete a complaint using its unique ID
     db.session.delete(data)
     db.session.commit()
     
-    return redirect('/')  # Redirect to the index page after deleting a complaint
+    return redirect(url_for('index'))  # Redirect to the index page after deleting a complaint
 
 if  __name__ == '__main__':
     with app.app_context():  # Needed for DB operations
