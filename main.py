@@ -10,6 +10,7 @@ app = Flask(__name__, template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///complaints.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'groupproject'
+app.config['ADMIN_SECRET'] = 'Vastadmin1'
 
 db = SQLAlchemy(app)
 
@@ -111,10 +112,17 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
+        role_access = request.form.get("options")
+        
+        if role_access == "Admin":
+            if password != app.config["ADMIN_SECRET"]:
+                return render_template("signup.html", error="Invalid admin password!")
 
         if Users.query.filter_by(username=username).first():
             return render_template("signup.html", error="Username already taken!")
 
+    
+    
         hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
         new_user = Users(username=username, password=hashed_password)
         db.session.add(new_user)
@@ -146,7 +154,7 @@ def students():
     students_list = []
     role_students = db.session.query(roles_users).filter_by(role_id=4).all()
     for s in role_students:
-        user = Users.query.filter_by(id=s.user_id).first()
+        user = Users.query.filter_by(id =s.user_id).first()
         if user:
             students_list.append(user)
     return render_template("students.html", students=students_list)

@@ -7,7 +7,25 @@
     <style>
         h1 { color: green; }
         .error { color: red; }
+        .admin-secret { display: none; }
     </style>
+    <script>
+        function toggleAdminPassword() {
+            const adminOption = document.getElementById("option1");
+            const adminField = document.getElementById("admin-secret");
+            if (adminOption.checked) {
+                adminField.style.display = "block";
+            } else {
+                adminField.style.display = "none";
+            }
+        }
+
+        window.onload = function() {
+            const radios = document.querySelectorAll('input[name="options"]');
+            radios.forEach(radio => radio.addEventListener('change', toggleAdminPassword));
+            toggleAdminPassword();
+        };
+    </script>
 </head>
 <body>
     <nav>
@@ -25,12 +43,17 @@
     <form action="/register" method="post">
         <label for="username">Username:</label>
         <input type="text" name="username" required />
+
         <label for="password">Password:</label>
         <input type="password" name="password" required />
+
+        <p>Select Role:</p>
+        <label><input type="radio" name="options" id="option1" value="Admin" required> Admin</label>
+        <label><input type="radio" name="options" id="option2" value="Teacher"> Teacher</label>
+        <label><input type="radio" name="options" id="option3" value="Student"> Student</label>
+
+
         <button type="submit">Sign Up</button>
-        <input type="radio" name="options" id="option1" value=1 required> Admin </input> 
-        <input type="radio" name="options" id="option2" value=2> Teacher </input>
-        <input type="radio" name="options" id="option3" value=3> Student </input>
     </form>
 </body>
 </html>
