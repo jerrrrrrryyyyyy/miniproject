@@ -18,9 +18,8 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# ========================
 # Role-based Access Helper
-# ========================
+
 def role_required(*roles):
     def wrapper(fn):
         @wraps(fn)
@@ -34,17 +33,15 @@ def role_required(*roles):
         return decorated_view
     return wrapper
 
-# ====================
 # Association Table
-# ====================
+
 roles_users = db.Table('roles_users',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
     db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
 )
 
-# ====================
 # Models
-# ====================
+
 class Users(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -66,16 +63,14 @@ class Complaint(db.Model):
     complaint_text = db.Column(db.String(500), nullable=False)
     complaint_status = db.Column(db.String(50), nullable=False)
 
-# ====================
 # Login loader
-# ====================
+
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(int(user_id))
 
-# ====================
 # Routes
-# ====================
+
 @app.route('/')
 @login_required
 def index():
@@ -121,8 +116,6 @@ def register():
         if Users.query.filter_by(username=username).first():
             return render_template("signup.html", error="Username already taken!")
 
-    
-    
         hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
         new_user = Users(username=username, password=hashed_password)
         db.session.add(new_user)
@@ -152,7 +145,7 @@ def teachers():
 @role_required('Admin', 'Teacher')
 def students():
     students_list = []
-    role_students = db.session.query(roles_users).filter_by(role_id=4).all()
+    role_students = db.session.query(roles_users).filter_by(role_id=3).all()
     for s in role_students:
         user = Users.query.filter_by(id =s.user_id).first()
         if user:
@@ -172,9 +165,9 @@ def add_complaint():
     complaint_status = request.form.get("complaint_status")
 
     new_complaint = Complaint(
-        complaint_headline=complaint_headline,
-        complaint_text=complaint_text,
-        complaint_status=complaint_status
+        complaint_headline = complaint_headline,
+        complaint_text = complaint_text,
+        complaint_status = complaint_status
     )
 
     db.session.add(new_complaint)
@@ -190,9 +183,9 @@ def erase(id):
     db.session.commit()
     return redirect(url_for('index'))
 
-# ====================
+
 # Run the app
-# ====================
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
