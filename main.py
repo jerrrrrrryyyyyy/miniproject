@@ -47,8 +47,6 @@ class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    active = db.Column(db.Boolean(), default=True)
-    fs_uniquifier = db.Column(db.String(255), unique=True, nullable=False, default=lambda: uuid.uuid4().hex)
     roles = db.relationship('Role', secondary=roles_users, backref='users')
 
 class Role(db.Model):
@@ -89,12 +87,6 @@ def login():
         if not user:
             return render_template("login.html", error="User not found")
 
-        if role_id:
-            role = Role.query.get(int(role_id))
-            if role and role not in user.roles:
-                user.roles.append(role)
-                db.session.commit()
-
         if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for("index"))
@@ -109,8 +101,7 @@ def register():
         password = request.form.get("password")
         role_access = request.form.get("options")
         
-        if role_access == "Teacher":
-            if password != app.config["TEACHER_SECRET"]:
+        if role_access == "Teacher" and password != app.config["TEACHER_SECRET"]:
                 return render_template("signup.html", message="Enter special  password for teachers.")
 
         if Users.query.filter_by(username=username).first():
@@ -118,6 +109,11 @@ def register():
 
         hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
         new_user = Users(username=username, password=hashed_password)
+        
+        role = Role.query.filter_by(name=role_access).first()
+        if role:
+            new_user.roles.append(role)
+        
         db.session.add(new_user)
         db.session.commit()
 
@@ -176,6 +172,7 @@ def add_complaint():
     return redirect('/')
 
 @app.route('/delete/<int:id>')
+@role_required("Teacher")
 @login_required
 def erase(id):
     data = Complaint.query.get(id)
