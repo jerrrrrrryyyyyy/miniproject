@@ -46,7 +46,7 @@ class Users(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
+    password = db.Column(db.String(200), nullable=False)  
     roles = db.relationship('Role', secondary=roles_users, backref='users')
 
 class Role(db.Model):
@@ -129,23 +129,15 @@ def logout():
 @app.route('/teachers')
 @role_required('Teacher')
 def teachers():
-    teachers_list = []
-    role_teachers = db.session.query(roles_users).filter_by(role_id=1).all()
-    for teacher in role_teachers:
-        user = Users.query.filter_by(id=teacher.user_id).first()
-        if user:
-            teachers_list.append(user)
+    teacher_role = Role.query.filter_by(name='Teacher').first()
+    teachers_list = teacher_role.users if teacher_role else []
     return render_template("teachers.html", teachers=teachers_list)
 
 @app.route('/students')
 @role_required('Teacher')
 def students():
-    students_list = []
-    role_students = db.session.query(roles_users).filter_by(role_id=2).all()
-    for s in role_students:
-        user = Users.query.filter_by(id =s.user_id).first()
-        if user:
-            students_list.append(user)
+    student_role = Role.query.filter_by(name='Student').first()
+    students_list = student_role.users if student_role else []
     return render_template("students.html", students=students_list)
 
 @app.route('/adddata')
@@ -155,6 +147,7 @@ def add_data():
 
 @app.route('/add', methods=['POST'])
 @login_required
+@role_required('Student')
 def add_complaint():
     complaint_headline = request.form.get("complaint_headline")
     complaint_text = request.form.get("complaint_text")
@@ -186,4 +179,13 @@ def erase(id):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        
+        if Role.query.count() == 0:
+            teacher = Role(name='Teacher')
+            student = Role(name='Student')
+            db.session.add_all([teacher, student])
+            db.session.commit()
+            print("Default roles created.")
+        else:
+            print("Roles already exist.")
     app.run(debug=True)
