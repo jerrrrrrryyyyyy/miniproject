@@ -10,7 +10,7 @@ app = Flask(__name__, template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///complaints.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'groupproject'
-app.config['ADMIN_SECRET'] = 'Vastadmin1'
+app.config['TEACHER_SECRET'] = 'Vastadmin1'
 
 db = SQLAlchemy(app)
 
@@ -61,7 +61,7 @@ class Complaint(db.Model):
     complaint_id = db.Column(db.Integer, primary_key=True)
     complaint_headline = db.Column(db.String(120), nullable=False)
     complaint_text = db.Column(db.String(500), nullable=False)
-    complaint_status = db.Column(db.String(50), nullable=False)
+    complaint_type = db.Column(db.String(50), nullable=False)
 
 # Login loader
 
@@ -109,9 +109,9 @@ def register():
         password = request.form.get("password")
         role_access = request.form.get("options")
         
-        if role_access == "Admin":
-            if password != app.config["ADMIN_SECRET"]:
-                return render_template("signup.html", error="Invalid admin password!")
+        if role_access == "Teacher":
+            if password != app.config["TEACHER_SECRET"]:
+                return render_template("signup.html", message="Enter special  password for teachers.")
 
         if Users.query.filter_by(username=username).first():
             return render_template("signup.html", error="Username already taken!")
@@ -131,10 +131,10 @@ def logout():
     return redirect(url_for("login"))
 
 @app.route('/teachers')
-@role_required('Admin')
+@role_required('Teacher')
 def teachers():
     teachers_list = []
-    role_teachers = db.session.query(roles_users).filter_by(role_id=2).all()
+    role_teachers = db.session.query(roles_users).filter_by(role_id=1).all()
     for teacher in role_teachers:
         user = Users.query.filter_by(id=teacher.user_id).first()
         if user:
@@ -142,10 +142,10 @@ def teachers():
     return render_template("teachers.html", teachers=teachers_list)
 
 @app.route('/students')
-@role_required('Admin', 'Teacher')
+@role_required('Teacher')
 def students():
     students_list = []
-    role_students = db.session.query(roles_users).filter_by(role_id=3).all()
+    role_students = db.session.query(roles_users).filter_by(role_id=2).all()
     for s in role_students:
         user = Users.query.filter_by(id =s.user_id).first()
         if user:
@@ -162,12 +162,12 @@ def add_data():
 def add_complaint():
     complaint_headline = request.form.get("complaint_headline")
     complaint_text = request.form.get("complaint_text")
-    complaint_status = request.form.get("complaint_status")
+    complaint_type = request.form.get("complaint_type")
 
     new_complaint = Complaint(
         complaint_headline = complaint_headline,
         complaint_text = complaint_text,
-        complaint_status = complaint_status
+        complaint_type = complaint_type
     )
 
     db.session.add(new_complaint)

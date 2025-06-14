@@ -14,11 +14,20 @@
         <label for="complaint_text">Complaint Text:</label>
         <textarea id="complaint_text" name="complaint_text" required></textarea>
         <br>
-        <label for="complaint_status">Complaint Status:</label>
-        <select id="complaint_status" name="complaint_status" required>
-            <option value="submitted">Submitted</option>
-            <option value="seen">Seen</option>
-            <option value="resolved">Resolved</option>
+        <label for="complaint_type">Complaint Status:</label>
+        <select id="complaint_type" name="complaint_type" required>
+            <option value="administration">Administration</option>
+                <option value="technical">Technical</option>
+                <option value="academic">Academic</option>
+                <option value="hostel">Hostel</option>
+                <option value="infrastructure">Infrastructure</option>
+                <option value="library">Library</option>
+                <option value="food">Food</option>
+                <option value="faculty">Faculty</option>
+                <option value="transport">Transport</option>
+                <option value="fees">Fees</option>
+                <option value="events">Events</option>
+                <option value="others">Others</option>
         </select>
         <br>
         <input type="submit" value="Submit">
