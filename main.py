@@ -60,6 +60,7 @@ class Complaint(db.Model):
     complaint_headline = db.Column(db.String(120), nullable=False)
     complaint_text = db.Column(db.String(500), nullable=False)
     complaint_type = db.Column(db.String(50), nullable=False)
+    complaint_status = db.Column(db.String(50), nullable=False, default='Submitted')
 
 # Login loader
 
@@ -146,8 +147,7 @@ def add_data():
     return render_template('adddata.html')
 
 @app.route('/add', methods=['POST'])
-@login_required
-@role_required('Student')
+@login_required 
 def add_complaint():
     complaint_headline = request.form.get("complaint_headline")
     complaint_text = request.form.get("complaint_text")
@@ -163,6 +163,19 @@ def add_complaint():
     db.session.commit()
 
     return redirect('/')
+
+@app.route('/update_status/<int:complaint_id>', methods=["GET", "POST"])
+@role_required('Teacher')
+def update_status(complaint_id):
+    complaint = Complaint.query.get_or_404(complaint_id)
+
+    if request.method == "POST":
+        new_status = request.form.get("complaint_status")
+        complaint.complaint_status = new_status
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    return render_template("update_status.html", complaint=complaint)
 
 @app.route('/delete/<int:id>')
 @role_required("Teacher")
