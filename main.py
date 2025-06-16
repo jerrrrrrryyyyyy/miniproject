@@ -18,7 +18,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# Role-based Access Helper
+"""
+    Restrict access to users with specific roles.
+"""
 
 def role_required(*roles):
     def wrapper(fn):
@@ -33,26 +35,30 @@ def role_required(*roles):
         return decorated_view
     return wrapper
 
-# Association Table
+# Association table for many-to-many relationship between users and roles
 
 roles_users = db.Table('roles_users',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
     db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
 )
 
-# Models
+# User model representing students or teachers.
 
 class Users(UserMixin, db.Model):
+
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)  
     roles = db.relationship('Role', secondary=roles_users, backref='users')
 
+# Role model defines the user roles (eg: Student, Teacher).
+
 class Role(db.Model):
     __tablename__ = 'role'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
+
 
 class Complaint(db.Model):
     __tablename__ = 'complaint'
@@ -72,12 +78,12 @@ def load_user(user_id):
 
 @app.route('/')
 @login_required
-def index():
+def index():  # Home page
     comp = Complaint.query.all()
     return render_template('index.html', complaints=comp)
 
 @app.route("/login", methods=["GET", "POST"])
-def login():
+def login(): # Login route for user authentication (if users alredy have an account)
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -96,21 +102,24 @@ def login():
     return render_template("login.html")
 
 @app.route('/register', methods=["GET", "POST"])
-def register():
+def register(): # Registration route for new users. Teacher accounts require a special password.
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
         role_access = request.form.get("options")
         
+        # Checks for special password for teachers
         if role_access == "Teacher" and password != app.config["TEACHER_SECRET"]:
-                return render_template("signup.html", message="Enter special  password for teachers.")
+            return render_template("signup.html", message="Enter special  password for teachers.")
 
+        # Check if user already exists
         if Users.query.filter_by(username=username).first():
             return render_template("signup.html", error="Username already taken!")
 
         hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
         new_user = Users(username=username, password=hashed_password)
         
+        # Assign role
         role = Role.query.filter_by(name=role_access).first()
         if role:
             new_user.roles.append(role)
@@ -123,7 +132,7 @@ def register():
 
 @app.route("/logout")
 @login_required
-def logout():
+def logout(): # Logs out the current user.
     logout_user()
     return redirect(url_for("login"))
 
@@ -143,12 +152,12 @@ def students():
 
 @app.route('/adddata')
 @login_required
-def add_data():
+def add_data(): # Renders the complaint submission form.
     return render_template('adddata.html')
 
 @app.route('/add', methods=['POST'])
 @login_required 
-def add_complaint():
+def add_complaint(): # Adds a new complaint submitted by a logged-in user.
     complaint_headline = request.form.get("complaint_headline")
     complaint_text = request.form.get("complaint_text")
     complaint_type = request.form.get("complaint_type")
@@ -166,7 +175,7 @@ def add_complaint():
 
 @app.route('/update_status/<int:complaint_id>', methods=["GET", "POST"])
 @role_required('Teacher')
-def update_status(complaint_id):
+def update_status(complaint_id): # Allows teachers to update the status of a complaint.
     complaint = Complaint.query.get_or_404(complaint_id)
 
     if request.method == "POST":
@@ -180,14 +189,14 @@ def update_status(complaint_id):
 @app.route('/delete/<int:id>')
 @role_required("Teacher")
 @login_required
-def erase(id):
+def erase(id): # Deletes a complaint from the database. Only accessible by teachers.
     data = Complaint.query.get(id)
     db.session.delete(data)
     db.session.commit()
     return redirect(url_for('index'))
 
 
-# Run the app
+# Main block to run the app
 
 if __name__ == '__main__':
     with app.app_context():
