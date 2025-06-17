@@ -47,17 +47,18 @@ roles_users = db.Table('roles_users',
 class Users(UserMixin, db.Model):
 
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(200), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)  
-    roles = db.relationship('Role', secondary=roles_users, backref='users')
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(200), unique=True, nullable = False)
+    password = db.Column(db.String(200), nullable = False)
+    email = db.Column(db.String(80), unique=True, nullable = False)  
+    roles = db.relationship('Role', secondary = roles_users, backref = 'users')
 
 # Role model defines the user roles (eg: Student, Teacher).
 
 class Role(db.Model):
     __tablename__ = 'role'
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(80), unique= True, nullable = False)
+    name = db.Column(db.String(80), unique = True, nullable = False)
 
 
 class Complaint(db.Model):
@@ -66,7 +67,7 @@ class Complaint(db.Model):
     complaint_headline = db.Column(db.String(120), nullable = False)
     complaint_text = db.Column(db.String(500), nullable = False)
     complaint_type = db.Column(db.String(50), nullable = False)
-    complaint_status = db.Column(db.String(50), nullable = False, default='Submitted')
+    complaint_status = db.Column(db.String(50), nullable = False, default = 'Submitted')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     user = db.relationship("Users", backref = "complaints")
 # Login loader
@@ -81,47 +82,53 @@ def load_user(user_id):
 @login_required
 def index():  # Home page
     comp = Complaint.query.all()
-    return render_template('index.html', complaints=comp)
+    return render_template('index.html', complaints = comp)
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods = ["GET", "POST"])
 def login(): # Login route for user authentication (if users alredy have an account)
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
         role_id = request.form.get("options")
 
-        user = Users.query.filter_by(username=username).first()
+        user = Users.query.filter_by(username = username).first()
 
         if not user:
-            return render_template("login.html", error="User not found")
+            return render_template("login.html", error = "User not found")
 
         if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for("index"))
         else:
-            return render_template("login.html", error="Invalid credentials")
+            return render_template("login.html", error = "Invalid credentials")
     return render_template("login.html")
 
 @app.route('/register', methods=["GET", "POST"])
 def register(): # Registration route for new users. Teacher accounts require a special password.
     if request.method == "POST":
         username = request.form.get("username")
+        email = request.form.get("email")
         password = request.form.get("password")
         role_access = request.form.get("options")
+        email = request.form.get("email")
         
         # Checks for special password for teachers
         if role_access == "Teacher" and password != app.config["TEACHER_SECRET"]:
-            return render_template("signup.html", message="Enter special  password for teachers.")
+            return render_template("signup.html", message = "Enter special  password for teachers.")
 
         # Check if user already exists
-        if Users.query.filter_by(username=username).first():
-            return render_template("signup.html", error="Username already taken!")
+        if Users.query.filter_by(username = username).first():
+            return render_template("signup.html", error = "Username already taken!")
+        
+        # Check if email already exists
+        if Users.query.filter_by(email = email).first():
+            return render_template("signup.html", error = "Email already in use!")
 
-        hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
-        new_user = Users(username=username, password=hashed_password)
+        hashed_password = generate_password_hash(password, method = "pbkdf2:sha256")
+        new_user = Users(username = username, email = email, password = hashed_password)
         
         # Assign role
-        role = Role.query.filter_by(name=role_access).first()
+        role = Role.query.filter_by(name = role_access).first()
         if role:
             new_user.roles.append(role)
         

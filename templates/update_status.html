@@ -7,8 +7,13 @@
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
     (function() {
-      emailjs.init("your_public_key"); // Replace with your actual EmailJS public key
+      emailjs.init("ZzuX2nHjWNd9ZhobT"); // Replace with your actual EmailJS public key
     })();
+
+    document.addEventListener("DOMContentLoaded", function () {
+        emailjs.init("your_public_key");
+    });
+
   </script>
 </head>
 <body>
@@ -50,7 +55,7 @@
         status: status // pass status if needed in the email template
       };
 
-      emailjs.send("your_service_id", "your_template_id", params)
+      emailjs.send("service_1ncbcxr", "template_qsl34lc", params)
         .then(function(res) {
           console.log("Email sent", res.status);
           document.getElementById('statusForm').submit(); // continue Flask form submission
