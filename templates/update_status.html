@@ -1,21 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status Update</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Status Update</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("your_public_key"); // Replace with your actual EmailJS public key
+    })();
+  </script>
 </head>
 <body>
-    <h2>Update Complaint Status</h2>
-    <form method="POST">
+  <h2>Update Complaint Status</h2>
+
+  <form id="statusForm" method="POST">
     <label for="complaint_status">Status:</label>
-    <select name="complaint_status" required>
-        <option value="Submitted" {% if complaint.complaint_status == "Submitted" %}selected{% endif %}>Submitted</option>
-        <option value="In Progress" {% if complaint.complaint_status == "In Progress" %}selected{% endif %}>In Progress</option>
-        <option value="Solved" {% if complaint.complaint_status == "Solved" %}selected{% endif %}>Solved</option>
+    <select name="complaint_status" id="complaint_status" required>
+      <option value="Submitted" {% if complaint.complaint_status == "Submitted" %}selected{% endif %}>Submitted</option>
+      <option value="In Progress" {% if complaint.complaint_status == "In Progress" %}selected{% endif %}>In Progress</option>
+      <option value="Solved" {% if complaint.complaint_status == "Solved" %}selected{% endif %}>Solved</option>
     </select>
+
+    <!-- Hidden fields passed to EmailJS -->
+    <input type="hidden" id="studentName" value="{{ complaint.user.username }}">
+    <input type="hidden" id="studentEmail" value="{{ complaint.user.email }}">
+    <input type="hidden" id="complaintTitle" value="{{ complaint.complaint_headline }}">
+    <input type="hidden" id="complaintType" value="{{ complaint.complaint_type }}">
+    <input type="hidden" id="teacherName" value="{{ current_user.username }}">
+    <input type="hidden" id="teacherEmail" value="{{ current_user.email }}">
+
     <button type="submit">Update</button>
-</form>
+  </form>
+
+  <script>
+    document.getElementById('statusForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const status = document.getElementById('complaint_status').value;
+
+      const params = {
+        name: document.getElementById('studentName').value,
+        email: document.getElementById('studentEmail').value,        // to_email
+        title: document.getElementById('complaintTitle').value,
+        complaint_type: document.getElementById('complaintType').value,
+        student_email: document.getElementById('studentEmail').value,
+        from_name: document.getElementById('teacherName').value,
+        from_email: document.getElementById('teacherEmail').value,
+        status: status // pass status if needed in the email template
+      };
+
+      emailjs.send("your_service_id", "your_template_id", params)
+        .then(function(res) {
+          console.log("Email sent", res.status);
+          document.getElementById('statusForm').submit(); // continue Flask form submission
+        })
+        .catch(function(err) {
+          console.error("Email sending failed", err);
+          document.getElementById('statusForm').submit(); // still submit to Flask
+        });
+    });
+  </script>
 </body>
 </html>
-
