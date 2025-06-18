@@ -212,9 +212,10 @@ if __name__ == '__main__':
         db.create_all()
         
         if Role.query.count() == 0:
-            teacher = Role(name='Teacher')
-            student = Role(name='Student')
-            db.session.add_all([teacher, student])
+            teacher = Role(name = 'Teacher')
+            student = Role(name = 'Student')
+            parent = Role(name = 'Parent')
+            db.session.add_all([teacher, student, parent])
             db.session.commit()
             print("Default roles created.")
         else:

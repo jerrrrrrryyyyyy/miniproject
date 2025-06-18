@@ -7,13 +7,8 @@
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
     (function() {
-      emailjs.init("ZzuX2nHjWNd9ZhobT"); // Replace with your actual EmailJS public key
+      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with actual EmailJS public key
     })();
-
-    document.addEventListener("DOMContentLoaded", function () {
-        emailjs.init("your_public_key");
-    });
-
   </script>
 </head>
 <body>
@@ -27,9 +22,9 @@
       <option value="Solved" {% if complaint.complaint_status == "Solved" %}selected{% endif %}>Solved</option>
     </select>
 
-    <!-- Hidden fields passed to EmailJS -->
-    <input type="hidden" id="studentName" value="{{ complaint.user.username }}">
-    <input type="hidden" id="studentEmail" value="{{ complaint.user.email }}">
+    <!-- Hidden fields -->
+    <input type="hidden" id="recipientName" value="{{ complaint.user.username }}">
+    <input type="hidden" id="recipientEmail" value="{{ complaint.user.email }}">
     <input type="hidden" id="complaintTitle" value="{{ complaint.complaint_headline }}">
     <input type="hidden" id="complaintType" value="{{ complaint.complaint_type }}">
     <input type="hidden" id="teacherName" value="{{ current_user.username }}">
@@ -45,25 +40,27 @@
       const status = document.getElementById('complaint_status').value;
 
       const params = {
-        name: document.getElementById('studentName').value,
-        email: document.getElementById('studentEmail').value,        // to_email
+        name: document.getElementById('recipientName').value,
+        email: document.getElementById('recipientEmail').value, // to_email
         title: document.getElementById('complaintTitle').value,
         complaint_type: document.getElementById('complaintType').value,
-        student_email: document.getElementById('studentEmail').value,
         from_name: document.getElementById('teacherName').value,
         from_email: document.getElementById('teacherEmail').value,
-        status: status // pass status if needed in the email template
+        status: status
       };
 
-      emailjs.send("service_1ncbcxr", "template_qsl34lc", params)
-        .then(function(res) {
-          console.log("Email sent", res.status);
-          document.getElementById('statusForm').submit(); // continue Flask form submission
-        })
-        .catch(function(err) {
-          console.error("Email sending failed", err);
-          document.getElementById('statusForm').submit(); // still submit to Flask
-        });
+      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        ...params,
+        to_email: params.email  // match your template variable
+      })
+      .then(function(res) {
+        console.log("Email sent successfully", res.status);
+        document.getElementById('statusForm').submit(); // continue form submission
+      })
+      .catch(function(err) {
+        console.error("Failed to send email", err);
+        document.getElementById('statusForm').submit(); // fail silently
+      });
     });
   </script>
 </body>
