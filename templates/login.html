@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>  
         h1 { color: green; }
         .error { color: red; }
-    </style>
+    </style> <!-- remove this style block when style.css is finished -->
+    <script src = "{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
     <nav>

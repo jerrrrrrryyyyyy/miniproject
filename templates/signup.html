@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         h1 { color: green; }
         .error { color: red; }
         .admin-secret { display: none; }
-    </style>
+    </style>  <!-- remove this style block when style.css is finished -->
     <script>
         function toggleAdminPassword() {
             const adminOption = document.getElementById("option1");
