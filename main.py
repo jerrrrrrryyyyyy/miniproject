@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 import uuid
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates',static_folder='static',static_url_path='/')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///complaints.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

@@ -1,0 +1,101 @@
+h1{
+    color: rgb(255 255 255);
+}
+.head{
+
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+  
+}
+.username{
+
+    display: flex;
+    flex-direction:column;
+    align-items:satrt;
+    margin-left:0%;
+    margin-top:4%;
+}
+.password{
+
+    display: flex;
+    flex-direction:column;
+    align-items:satrt;
+    margin-left:0%;
+    margin-top:4%;
+}
+.logbt{
+    display: flex;
+    align-items:start;
+    flex-direction:column;
+    margin-top:4%;
+    
+}
+.logbt button{
+    background-color:rgb(0 0 0);
+    color:white;
+    border-radius:5%;
+    border-color:#9e0909;
+    width:95%;
+    padding:2%;
+}
+.create{
+     display: flex;
+    align-items:center;
+    flex-direction:column;
+    
+    margin-top:2%;
+
+}
+body{
+
+    background-image: url(../img/backgroundimg.jpg);
+    }
+
+.username input{
+    border:none;
+    width:89%;
+    padding:3%;
+    border-radius:5%;
+}
+.username label{
+    padding:1%;
+    margin-left:0%;
+    align-item:center;
+}
+.password input{
+  border:none;
+    width:89%;
+    padding:3%;
+    border-radius:5%;
+}
+.password label{
+    padding:1%;
+    margin-left:0%;
+    align-item:center;
+}
+.formdiv {
+  border: 2px solid #ffd800;
+  background-color: rgb(210 210 210);
+  padding: 20px;
+  margin: 50px auto;
+  width: 70%;
+    max-width:480px;
+  min-height: 200px;
+  border-radius: 10px;
+}
+label {
+  font-size: 18px;
+}
+@media (max-width: 480px) {
+  label {
+    font-size: 14px; /* Smaller on phones */
+  }
+}
+@media (max-width: 480px) {
+  input {
+    width: 70%,!important;        /* Slightly wider on small screens */
+    padding: 2%;       /* More padding for easier touch */
+    font-size: 16px;   /* Slightly larger text */
+  }
+}

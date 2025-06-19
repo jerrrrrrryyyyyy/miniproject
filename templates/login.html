@@ -2,32 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Login</title>
-    <style>
-        h1 { color: green; }
-        .error { color: red; }
-    </style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">Create account</a></li>
-        </ul>
+       
     </nav>
+    <div class="head">
     <h1>Login to your account</h1>
+    </div>
     
     {% if error %}
         <p class="error">{{ error }}</p>
     {% endif %}
-
+<div class="formdiv">
     <form action="/login" method="post">
-        <label for="username">Username:</label>
+        <div class="username">
+        <label for="username">Username :</label>
         <input type="text" name="username" required />
-        <label for="password">Password:</label>
+        </div>
+        <div class="password">
+        <label for="password">Password :</label>
         <input type="password" name="password" required />
+        </div >
+        <div class="logbt">
         <button type="submit">Login</button>
+        </div>
+        <div class="create">
+         <ul>
+             <li><a href="/register">Create new account</a></li>
+        </ul>
+        </div>
     </form>
+</div>
 </body>
 </html>
