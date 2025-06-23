@@ -81,11 +81,16 @@ def load_user(user_id):
 @app.route('/')
 @login_required
 def index():  # Home page
-    comp = Complaint.query.all()
-    return render_template('index.html', complaints = comp)
+    role_names = [role.name for role in current_user.roles]
+
+    if 'Teacher' in role_names:
+        comp = Complaint.query.all()
+    else:     # For Student or Parent, only show their own complaints
+        comp = Complaint.query.filter_by(user_id=current_user.id).all()
+    return render_template('index.html', complaints=comp, role_names=role_names)
 
 @app.route("/login", methods = ["GET", "POST"])
-def login(): # Login route for user authentication (if users alredy have an account)
+def login():  # Login route for user authentication (if users alredy have an account)
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")

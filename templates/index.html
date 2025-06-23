@@ -38,9 +38,10 @@
                 <td>{{ complaint.complaint_type }}</td>
                 <td>{{ complaint.complaint_status }}</td>
                 <td>
-                    <a href="/delete/{{ complaint.complaint_id }}">Delete</a>
+                    
                     {% if 'Teacher' in role_names %}
-                        |    <a href="{{ url_for('update_status', complaint_id=complaint.complaint_id) }}">Update</a>
+                        <a href="/delete/{{ complaint.complaint_id }}">Delete</a>
+                        <a href="{{ url_for('update_status', complaint_id=complaint.complaint_id) }}">Update</a>
                     {% endif %}
                 </td>
             </tr>
