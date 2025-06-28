@@ -79,22 +79,27 @@ def load_user(user_id):
 # Routes
 
 @app.route('/')
+def index():  # Hero page with login/signup
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    return render_template('index.html')  # This is now the hero page
+
+@app.route('/home')
 @login_required
-def index():  # Home page
+def home():  # Home page
     role_names = [role.name for role in current_user.roles]
 
     if 'Teacher' in role_names:
         comp = Complaint.query.all()
     else:     # For Student or Parent, only show their own complaints
         comp = Complaint.query.filter_by(user_id=current_user.id).all()
-    return render_template('index.html', complaints=comp, role_names=role_names)
+    return render_template('home.html', complaints=comp, role_names=role_names)
 
 @app.route("/login", methods = ["GET", "POST"])
-def login():  # Login route for user authentication (if users alredy have an account)
+def login():  # Login route for user authentication (if users already have an account)
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        role_id = request.form.get("options")
 
         user = Users.query.filter_by(username = username).first()
 
@@ -103,7 +108,7 @@ def login():  # Login route for user authentication (if users alredy have an acc
 
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for("index"))
+            return redirect(url_for("home")) # Redirect to dashboard after login
         else:
             return render_template("login.html", error = "Invalid credentials")
     return render_template("login.html")
@@ -115,7 +120,6 @@ def register(): # Registration route for new users. Teacher accounts require a s
         email = request.form.get("email")
         password = request.form.get("password")
         role_access = request.form.get("options")
-        email = request.form.get("email")
         
         # Checks for special password for teachers
         if role_access == "Teacher" and password != app.config["TEACHER_SECRET"]:
@@ -147,7 +151,7 @@ def register(): # Registration route for new users. Teacher accounts require a s
 @login_required
 def logout(): # Logs out the current user.
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("index"))
 
 @app.route('/teachers')
 @role_required('Teacher')
@@ -185,7 +189,7 @@ def add_complaint(): # Adds a new complaint submitted by a logged-in user.
     db.session.add(new_complaint)
     db.session.commit()
 
-    return redirect('/')
+    return redirect(url_for('home'))
 
 @app.route('/update_status/<int:complaint_id>', methods=["GET", "POST"])
 @role_required('Teacher')
@@ -196,18 +200,18 @@ def update_status(complaint_id): # Allows teachers to update the status of a com
         new_status = request.form.get("complaint_status")
         complaint.complaint_status = new_status
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 
     return render_template("update_status.html", complaint=complaint)
 
-@app.route('/delete/<int:id>')
+@app.route('/delete/<int:id>',methods=['POST'])
 @role_required("Teacher")
 @login_required
 def erase(id): # Deletes a complaint from the database. Only accessible by teachers.
     data = Complaint.query.get(id)
     db.session.delete(data)
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('home'))
 
 
 # Main block to run the app

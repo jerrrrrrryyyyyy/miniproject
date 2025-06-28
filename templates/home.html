@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <h1>Complaint Management System</h1>
+    <h1>Group 4</h1>
+    <a href="/adddata">ADD</a>
+    <br>
+
+    {% set role_names = [] %}
+    {% for r in current_user.roles %}
+        {% set _ = role_names.append(r.name) %}
+    {% endfor %}
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Complaint Id</th>
+                <th>Heading</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for complaint in complaints %}
+            <tr>
+                <td>{{ complaint.complaint_id }}</td>
+                <td>{{ complaint.complaint_headline }}</td>
+                <td>{{ complaint.complaint_text }}</td>
+                <td>{{ complaint.complaint_type }}</td>
+                <td>{{ complaint.complaint_status }}</td>
+                <td>
+                    
+                    {% if 'Teacher' in role_names %}
+                        <a href="/delete/{{ complaint.complaint_id }}">Delete</a>
+                        <a href="{{ url_for('update_status', complaint_id=complaint.complaint_id) }}">Update</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <button onclick="location.href='/logout'">Log Out</button>
+</body>
+</html> 
