@@ -1,0 +1,132 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #7FC980;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Header layout */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* Button container on the right side */
+.button-group {
+    display: flex;
+    gap: 12px;
+}
+
+
+/* Generic buttons */
+button {
+    padding: 10px 15px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* Complaint card container */
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Complaint card core layout */
+.complaint-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #dddddd;
+    border-radius: 16px;
+    padding: 16px;
+    border-left: 16px solid gray;
+    border-right: 16px solid gray;
+;
+}
+
+/* Border color by category */
+.complaint-card.canteen {
+    border-left-color: #e7c763;
+    border-right-color: #e7c763;
+}
+.complaint-card.infrastructure {
+    border-left-color: #d17070;
+    border-right-color: #d17070;
+}
+.complaint-card.administration {
+    border-left-color: #819FF7;
+    border-right-color: #819FF7;
+}
+
+/* Left section (text) */
+.card-left {
+    flex-grow: 1;
+}
+
+.card-left .heading {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card-left .subheading {
+    font-size: 1rem;
+    color: #444;
+    margin: 6px 0;
+}
+
+.card-left .description {
+    font-size: 0.95rem;
+    color: #222;
+}
+
+/* Right section (buttons & tag) */
+.card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+/* Category badge */
+.category-badge {
+    background-color: #e7c763;
+    color: black;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* You can optionally style the badge per category */
+.category-badge.canteen {
+    background-color: #e7c763;
+}
+.category-badge.infrastructure {
+    background-color: #d17070;
+}
+.category-badge.administration {
+    background-color: #819FF7;
+}
+
+/* Action buttons */
+.card-btn {
+    display: inline-block;
+    background-color: #9393f5;
+    color: black;
+    text-align: center;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    width: 100px;
+}

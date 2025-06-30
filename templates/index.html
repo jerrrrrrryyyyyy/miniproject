@@ -5,13 +5,22 @@
 </head>
 <body>
     <div>
-        <h1>Website logo?</h1>
+        <div class = "logo"> 
+            <h1>Website logo?</h1> 
+        </div>
 
-        <h2>Your Voice, Our Action</h2>
-        <p>Because even small complaints deserve big solutions.</p>
-
-        <a href="{{ url_for('login') }}"><button>Login</button></a>
-        <a href="{{ url_for('register') }}"><button>Sign Up</button></a>
+        <div class = "hero-text">
+            <h1>Your Voice, Our Action</h1>
+            <p>Because even small complaints deserve big solutions.</p>
+        </div>
+        
+        <div class = "buttons-container">
+            <div class = "buttons">
+                <a href="{{ url_for('login') }}"><button>Login</button></a>
+                <a href="{{ url_for('register') }}"><button>Sign Up</button></a>
+            </div>
+        </div>
+        
     </div>
 </body>
 </html>

@@ -8,48 +8,47 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
-    <h1>Complaint Management System</h1>
-    <h1>Group 4</h1>
-    <a href="/adddata">ADD</a>
-    <br>
+    <div class="header">
+        <h1>Hello, {{ current_user.username }}</h1>
+        <div class="button-group">
+            <button onclick="location.href='/adddata'">+ Add Prompt</button>
+            <button onclick="location.href='/logout'">Log Out</button>
+        </div>
+    </div>
 
     {% set role_names = [] %}
     {% for r in current_user.roles %}
         {% set _ = role_names.append(r.name) %}
     {% endfor %}
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Complaint Id</th>
-                <th>Heading</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for complaint in complaints %}
-            <tr>
-                <td>{{ complaint.complaint_id }}</td>
-                <td>{{ complaint.complaint_headline }}</td>
-                <td>{{ complaint.complaint_text }}</td>
-                <td>{{ complaint.complaint_type }}</td>
-                <td>{{ complaint.complaint_status }}</td>
-                <td>
-                    
-                    {% if 'Teacher' in role_names %}
-                        <a href="/delete/{{ complaint.complaint_id }}">Delete</a>
-                        <a href="{{ url_for('update_status', complaint_id=complaint.complaint_id) }}">Update</a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="card-container">
+    {% for complaint in complaints %}
+    <div class="complaint-card {{ complaint.complaint_type | lower }}">
+        <div class="card-left">
+            <h3 class="heading">{{ complaint.complaint_headline }}</h3>
+            <p class="subheading">Complaint Description</p>
+            <p class="description">{{ complaint.complaint_text }}</p>
+        </div>
 
-    <br>
-    <button onclick="location.href='/logout'">Log Out</button>
+        <div class="card-right">
+            <div class="badge-row">
+                <span class="category-badge {{ complaint.complaint_type | lower }}">
+                    {{ complaint.complaint_type }}
+                </span>
+                <span class="status-badge {{ complaint.status | lower }}">
+                    {{ complaint.status }}
+                </span>
+            </div>
+
+            {% if 'Teacher' in role_names %}
+                <a class="card-btn" href="/delete/{{ complaint.complaint_id }}">DELETE</a>
+                <a class="card-btn" href="{{ url_for('update_status', complaint_id=complaint.complaint_id) }}">update</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
 </body>
+
 </html> 
