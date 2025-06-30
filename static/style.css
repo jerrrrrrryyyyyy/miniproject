@@ -6,20 +6,38 @@ body {
     padding: 20px;
 }
 
-/* Header layout */
+/* Header layout using grid */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 120px; /* Adjust height as needed */
     margin-bottom: 30px;
 }
 
-/* Button container on the right side */
-.button-group {
-    display: flex;
-    gap: 12px;
+/* Position Hello at bottom-left */
+.header h1 {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    align-self: end;
 }
 
+/* Log Out button at top-right */
+.header .top-right {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+}
+
+/* Add Prompt button at bottom-right */
+.header .bottom-right {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    align-self: end;
+}
 
 /* Generic buttons */
 button {
@@ -31,7 +49,6 @@ button {
     font-weight: bold;
 }
 
-
 /* Complaint card container */
 .card-container {
     display: flex;
@@ -39,7 +56,7 @@ button {
     gap: 16px;
 }
 
-/* Complaint card core layout */
+/* Complaint card layout */
 .complaint-card {
     display: flex;
     justify-content: space-between;
@@ -49,7 +66,6 @@ button {
     padding: 16px;
     border-left: 16px solid gray;
     border-right: 16px solid gray;
-;
 }
 
 /* Border color by category */
@@ -66,7 +82,7 @@ button {
     border-right-color: #819FF7;
 }
 
-/* Left section (text) */
+/* Left text section */
 .card-left {
     flex-grow: 1;
 }
@@ -88,7 +104,7 @@ button {
     color: #222;
 }
 
-/* Right section (buttons & tag) */
+/* Right section (badges & buttons) */
 .card-right {
     display: flex;
     flex-direction: column;
@@ -97,17 +113,39 @@ button {
     margin-left: 20px;
 }
 
-/* Category badge */
-.category-badge {
-    background-color: #e7c763;
+/* Badge container: row for status + category */
+.badge-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+/* Shared badge style */
+.category-badge,
+.status-badge {
+    background-color: #9393f5;
     color: black;
     padding: 6px 16px;
     border-radius: 999px;
     font-size: 0.9rem;
     text-align: center;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
-/* You can optionally style the badge per category */
+/* Optional: status-specific styling (if desired) */
+.status-badge.submitted {
+    background-color: #9393f5;
+}
+.status-badge.in-progress {
+    background-color: #f59e42;
+}
+.status-badge.resolved {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Optional: category-specific overrides (if needed) */
 .category-badge.canteen {
     background-color: #e7c763;
 }
