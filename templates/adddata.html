@@ -1,36 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Complaint</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Complaint</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
 </head>
 <body>
-    <h1>Add Complaint</h1>
+  <div class="page-header">
+    <div class="logo">Website logo?</div>
+    <button class="back-btn">👤 Go back</button>
+  </div>
+
+  <div class="form-container">
+    <h2>add prompt</h2>
     <form action="/add" method="post">
-        <label for="complaint_headline">Complaint Headline:</label>
-        <input type="text" id="complaint_headline" name="complaint_headline" required>
-        <br>
-        <label for="complaint_text">Complaint Text:</label>
-        <textarea id="complaint_text" name="complaint_text" required></textarea>
-        <br>
-        <label for="complaint_type">Complaint Status:</label>
-        <select id="complaint_type" name="complaint_type" required>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="complaint_headline">Complaint Title</label>
+          <input type="text" id="complaint_headline" name="complaint_headline" placeholder="complaint heading" required>
+        </div>
+        <div class="form-group">
+          <label for="complaint_type">Category</label>
+          <select id="complaint_type" name="complaint_type" required>
+            <option value="" disabled selected>Choose</option>
             <option value="administration">Administration</option>
-                <option value="technical">Technical</option>
-                <option value="academic">Academic</option>
-                <option value="hostel">Hostel</option>
-                <option value="infrastructure">Infrastructure</option>
-                <option value="library">Library</option>
-                <option value="food">Food</option>
-                <option value="faculty">Faculty</option>
-                <option value="transport">Transport</option>
-                <option value="fees">Fees</option>
-                <option value="events">Events</option>
-                <option value="others">Others</option>
-        </select>
-        <br>
-        <input type="submit" value="Submit">
-    </form> 
+            <option value="technical">Technical</option>
+            <option value="academic">Academic</option>
+            <option value="hostel">Hostel</option>
+            <option value="infrastructure">Infrastructure</option>
+            <option value="library">Library</option>
+            <option value="food">Food</option>
+            <option value="faculty">Faculty</option>
+            <option value="transport">Transport</option>
+            <option value="fees">Fees</option>
+            <option value="events">Events</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="complaint_text">Complaint description</label>
+        <textarea id="complaint_text" name="complaint_text" placeholder="describe your complaint" required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">CREATE</button>
+    </form>
+  </div>
 </body>
 </html>
