@@ -1,65 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <style>
-        h1 { color: green; }
-        .error { color: red; }
-        .admin-secret { display: none; }
-    </style>
-    <script>
-        function toggleAdminPassword() {
-            const adminOption = document.getElementById("option1");
-            const adminField = document.getElementById("admin-secret");
-            if (adminOption.checked) {
-                adminField.style.display = "block";
-            } else {
-                adminField.style.display = "none";
-            }
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+  <script>
+    function toggleAdminPassword() {
+      const teacher = document.getElementById("role_teacher");
+      const note = document.getElementById("teacher-note-signup");
+      if (teacher && teacher.checked) {
+        note.classList.remove("hidden");
+      } else {
+        note.classList.add("hidden");
+      }
+    }
 
-        window.onload = function() {
-            const radios = document.querySelectorAll('input[name="options"]');
-            radios.forEach(radio => radio.addEventListener('change', toggleAdminPassword));
-            toggleAdminPassword();
-        };
-    </script>
+    window.onload = function() {
+      const radios = document.querySelectorAll('input[name="role"]');
+      radios.forEach(radio => radio.addEventListener('change', toggleAdminPassword));
+      toggleAdminPassword();
+    };
+  </script>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">Create account</a></li>
-        </ul>
-    </nav>
-    <h1>Create an account</h1>
+  <div class="main-container">
+    <div class="form-box">
+      <div class="inner-brand">COMPLAINT PORTAL</div>
+      <h2>Create Account</h2>
 
-    {% if error %}
+      {% if error %}
         <p class="error">{{ error }}</p>
-    {% endif %}
+      {% endif %}
 
-    <form action="/register" method="post">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required />
-
-        <label for="email">Email:</label>
-        <input type="email" name="email" required />
-
-        <label for="password">Password:</label>
-        <input type="password" name="password" required />
+      <form action="/register" method="post">
+        <div class="form-group">
+          <input type="text" name="username" placeholder="Username*" required>
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Email *" required>
+          <input type="password" name="password" placeholder="Password *" required>
+        </div>
 
         <p>Select Role:</p>
-        <label><input type="radio" name="options" id="option1" value="Teacher"> Teacher</label>
-        <label><input type="radio" name="options" id="option2" value="Student"> Student</label>
-        <label><input type="radio" name="options" id="option3" value="Parent"> Parent</label>
-        
-        {% if message %}
-            <div style="color: orange;">{{ message }}</div>
-        {% endif %}
+        <label><input type="radio" name="role" id="role_teacher" value="Teacher"> Teacher</label>
+        <label><input type="radio" name="role" value="Student" checked> Student</label>
+        <label><input type="radio" name="role" value="Parent"> Parent</label>
 
-        <button type="submit">Sign Up</button>
-    </form>
+        <div id="teacher-note-signup" class="teacher-note hidden">
+          *If you want to login/sign up as a Teacher, you must enter the admin password.*
+        </div>
+
+        <button type="submit" class="submit-btn">Sign Up</button>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

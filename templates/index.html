@@ -1,26 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Complaint Portal - Hero Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complaint Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
 </head>
 <body>
-    <div>
-        <div class = "logo"> 
-            <h1>Website logo?</h1> 
+  <div class="main-container">
+    <div class="form-box">
+
+      <div class="inner-brand">COMPLAINT PORTAL</div>
+
+      <div class="role-toggle-container">
+        <p class="login-as">Login as:</p>
+        <div class="nav-tabs">
+          <div class="nav-indicator" id="nav-indicator"></div>
+          <button class="nav-tab active" onclick="switchRole('student', this)">Student</button>
+          <button class="nav-tab" onclick="switchRole('parent', this)">Parent</button>
+          <button class="nav-tab" onclick="switchRole('teacher', this)">Teacher</button>
+        </div>
+      </div>
+
+      <div class="form-header">
+        <h2 id="form-title">Sign Up</h2>
+        <p id="form-toggle-text">Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
+      </div>
+
+      <form id="signup-form" action="/register" method="post" autocomplete="off">
+        <div class="form-group">
+          <input type="text" name="username" placeholder="Username*" required>
         </div>
 
-        <div class = "hero-text">
-            <h1>Your Voice, Our Action</h1>
-            <p>Because even small complaints deserve big solutions.</p>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Email *" required>
+          <input type="password" name="password" placeholder="Password *" required>
         </div>
-        
-        <div class = "buttons-container">
-            <div class = "buttons">
-                <a href="{{ url_for('login') }}"><button>Login</button></a>
-                <a href="{{ url_for('register') }}"><button>Sign Up</button></a>
-            </div>
+
+        <div id="teacher-note-signup" class="teacher-note hidden">
+          *If you want to login/sign up as a Teacher, you must enter the admin password.*
         </div>
-        
+
+        <button type="submit" class="submit-btn">Sign Up</button>
+      </form>
+
+      <form id="login-form" action="/login" method="post" style="display: none;" autocomplete="off">
+        <div class="form-group">
+          <input type="text" name="username" placeholder="Username*" required>
+          <input type="password" name="password" placeholder="Password *" required>
+        </div>
+        <div id="teacher-note-login" class="teacher-note hidden">
+          *If you want to login as a Teacher, you must enter the admin password.*
+        </div>
+        <button type="submit" class="submit-btn">Login</button>
+      </form>
+
     </div>
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
