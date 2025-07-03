@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Status Update</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='update.css') }}">
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
     (function() {
@@ -12,6 +13,7 @@
   </script>
 </head>
 <body>
+  <div class="container">
   <h2>Update Complaint Status</h2>
 
   <form id="statusForm" method="POST">
@@ -32,6 +34,7 @@
 
     <button type="submit">Update</button>
   </form>
+</div>
 
   <script>
     document.getElementById('statusForm').addEventListener('submit', function(e) {
