@@ -18,7 +18,6 @@ function switchRole(role, button) {
   // Hide all teacher notes initially
   document.getElementById('teacher-note-signup').classList.add('hidden');
   document.getElementById('teacher-note-login').classList.add('hidden');
-
   // Teacher Login only
   if (role === 'teacher') {
     isLogin = true;
