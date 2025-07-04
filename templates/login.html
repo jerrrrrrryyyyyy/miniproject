@@ -1,37 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        h1 { color: green; }
+        .error { color: red; }
+    </style>
 </head>
 <body>
-  <div class="main-container">
-    <div class="form-box">
-      <div class="inner-brand">COMPLAINT PORTAL</div>
-      <h2>Login</h2>
-
-      {% if error %}
+    <nav>
+        <ul>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Create account</a></li>
+        </ul>
+    </nav>
+    <h1>Login to your account</h1>
+    
+    {% if error %}
         <p class="error">{{ error }}</p>
-      {% endif %}
+    {% endif %}
 
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          {% for message in messages %}
-            <div class="teacher-note">{{ message }}</div>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
-
-      <form action="/login" method="post" autocomplete="off">
-        <div class="form-group">
-          <input type="text" name="username" placeholder="Username*" required>
-          <input type="password" name="password" placeholder="Password*" required>
-        </div>
-        <button type="submit" class="submit-btn">Login</button>
-      </form>
-    </div>
-  </div>
+    <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required />
+        <label for="password">Password:</label>
+        <input type="password" name="password" required />
+        <button type="submit">Login</button>
+    </form>
 </body>
 </html>
