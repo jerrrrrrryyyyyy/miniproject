@@ -204,7 +204,7 @@ def update_status(complaint_id): # Allows teachers to update the status of a com
 
     return render_template("update_status.html", complaint=complaint)
 
-@app.route('/delete/<int:id>',methods=['POST'])
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
 @role_required("Teacher")
 @login_required
 def erase(id): # Deletes a complaint from the database. Only accessible by teachers.
