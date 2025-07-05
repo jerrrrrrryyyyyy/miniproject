@@ -3,7 +3,7 @@ let isLogin = false;
 
 function switchRole(role, button) {
   currentRole = role;
-  
+
   const tabs = document.querySelectorAll('.nav-tab');
   tabs.forEach(tab => tab.classList.remove('active'));
   button.classList.add('active');
@@ -15,10 +15,9 @@ function switchRole(role, button) {
   document.getElementById('signup-form').reset();
   document.getElementById('login-form').reset();
 
-  // Hide all teacher notes initially
-  document.getElementById('teacher-note-signup').classList.add('hidden');
+  // Hide both notes
   document.getElementById('teacher-note-login').classList.add('hidden');
-  // Teacher Login only
+
   if (role === 'teacher') {
     isLogin = true;
     document.getElementById('signup-form').style.display = 'none';
@@ -41,19 +40,6 @@ function toggleForm() {
   document.getElementById('signup-form').style.display = isLogin ? 'none' : 'block';
   document.getElementById('login-form').style.display = isLogin ? 'block' : 'none';
 
-  // Hide  notes 
-  document.getElementById('teacher-note-signup').classList.add('hidden');
-  document.getElementById('teacher-note-login').classList.add('hidden');
-
-  
-  if (currentRole === 'teacher') {
-    if (isLogin) {
-      document.getElementById('teacher-note-login').classList.remove('hidden');
-    } else {
-      document.getElementById('teacher-note-signup').classList.remove('hidden');
-    }
-  }
-
   updateFormHeader();
 }
 
@@ -74,7 +60,7 @@ function updateFormHeader() {
     toggleText.style.display = 'block';
   }
 }
-// Initialize slider on page load
+
 window.addEventListener('DOMContentLoaded', () => {
   const active = document.querySelector('.nav-tab.active');
   const slider = document.getElementById('nav-indicator');
