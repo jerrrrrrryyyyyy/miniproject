@@ -9,16 +9,16 @@
 <body>
   <div class="page-header">
     <div class="logo">Website logo?</div>
-    <button class="back-btn">👤 Go back</button>
+    <a href="{{ url_for('home') }}"><button class="back-btn">👤 Go back</button></a>
   </div>
 
   <div class="form-container">
-    <h2>add prompt</h2>
+    <h2>Add Complaint</h2>
     <form action="/add" method="post">
       <div class="form-row">
         <div class="form-group">
           <label for="complaint_headline">Complaint Title</label>
-          <input type="text" id="complaint_headline" name="complaint_headline" placeholder="complaint heading" required>
+          <input type="text" id="complaint_headline" name="complaint_headline" placeholder="Complaint heading" required>
         </div>
         <div class="form-group">
           <label for="complaint_type">Category</label>
@@ -41,8 +41,7 @@
       </div>
 
       <div class="form-group">
-        <label for="complaint_text">Complaint description</label>
-        <textarea id="complaint_text" name="complaint_text" placeholder="describe your complaint" required></textarea>
+        <textarea id="complaint_text" name="complaint_text" placeholder="Describe your complaint" required></textarea>
       </div>
 
       <button type="submit" class="submit-btn">CREATE</button>

@@ -14,42 +14,43 @@
     <button class="bottom-right" onclick="location.href='/adddata'">+ Add Prompt</button>
 </div>
 
-
     {% set role_names = [] %}
     {% for r in current_user.roles %}
         {% set _ = role_names.append(r.name) %}
     {% endfor %}
 
     <div class="card-container">
-    {% for complaint in complaints %}
-    <div class="complaint-card {{ complaint.complaint_type | lower }}">
-        <!-- Left Section: Complaint Text -->
-        <div class="card-left">
-            <h3 class="heading">{{ complaint.complaint_headline }}</h3>
-            <p class="subheading">Complaint Description</p>
-            <p class="description">{{ complaint.complaint_text }}</p>
-        </div>
-
-        <!-- Right Section: Tags and Actions -->
-        <div class="card-right">
-            <div class="badge-row">
-                <!-- Complaint Status Badge -->
-                <span class="status-badge {{ complaint.complaint_status | lower }}">
-                    {{ complaint.complaint_status }}
-                </span>
-
-                <!-- Complaint Category Badge -->
-                <span class="category-badge {{ complaint.complaint_type | lower }}">
-                    {{ complaint.complaint_type }}
-                </span>
+        {% for complaint in complaints %}
+        <div class="complaint-card {{ complaint.complaint_type | lower }}">
+            <!-- Left Section: Complaint Text -->
+            <div class="card-left">
+                <h3 class="heading">{{ complaint.complaint_headline }}</h3>
+                {% if 'Teacher' in role_names %}
+                    <h5 class="username">By: {{ complaint.username }}</h5>
+                {% endif %}
+                <p class="description">{{ complaint.complaint_text }}</p>
             </div>
 
-            <!-- Action Buttons (for Teachers) -->
-            {% if 'Teacher' in role_names %}
-                <a class="card-btn" href="/delete/{{ complaint.complaint_id }}">DELETE</a>
-                <a class="card-btn" href="{{ url_for('update_status', complaint_id=complaint.complaint_id) }}">update</a>
-            {% endif %}
-        </div>
+            <!-- Right Section: Tags and Actions -->
+            <div class="card-right">
+                <div class="badge-row">
+                    <!-- Complaint Status Badge -->
+                    <span class="status-badge {{ complaint.complaint_status | lower | replace(' ', '-') }}">
+                        {{ complaint.complaint_status }}
+                    </span>
+
+                    <!-- Complaint Category Badge -->
+                    <span class="category-badge {{ complaint.complaint_type | lower }}">
+                        {{ complaint.complaint_type }}
+                    </span>
+                </div>
+
+                <!-- Action Buttons (for Teachers) -->
+                {% if 'Teacher' in role_names %}
+                    <a class="card-btn" href="{{ url_for('update_status', complaint_id=complaint.complaint_id) }}">Update</a>
+                    <a class="card-btn" href="/delete/{{ complaint.complaint_id }}">Delete</a>
+                {% endif %}
+            </div>
     </div>
     {% endfor %}
 </div>

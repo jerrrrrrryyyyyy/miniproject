@@ -6,7 +6,12 @@
 }
 
 body {
-  background-color: #7BC47F;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url("/static/images/website bg.svg"); /* or background.png / background.jpg */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
   min-height: 100vh;
   padding: 20px;
 }
@@ -36,7 +41,7 @@ body {
 
 /* Form container */
 .form-container {
-  background: #f0f0f0;
+  background-color: #ffffffB3;
   max-width: 750px;
   margin: 40px auto;
   padding: 30px;
@@ -77,7 +82,7 @@ textarea {
   padding: 12px;
   border: none;
   border-radius: 10px;
-  background-color: #b0cbd3;
+  background-color: #c9eefa;
   font-size: 14px;
   color: #000;
   outline: none;

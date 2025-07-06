@@ -1,7 +1,11 @@
 /* General styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #7FC980;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url("/static/images/website bg.svg"); /* or background.png / background.jpg */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
     margin: 0;
     padding: 20px;
 }
@@ -61,25 +65,9 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    background-color: #dddddd;
+    background-color: #ffffffB3;
     border-radius: 16px;
     padding: 16px;
-    border-left: 16px solid gray;
-    border-right: 16px solid gray;
-}
-
-/* Border color by category */
-.complaint-card.canteen {
-    border-left-color: #e7c763;
-    border-right-color: #e7c763;
-}
-.complaint-card.infrastructure {
-    border-left-color: #d17070;
-    border-right-color: #d17070;
-}
-.complaint-card.administration {
-    border-left-color: #819FF7;
-    border-right-color: #819FF7;
 }
 
 /* Left text section */
@@ -123,37 +111,62 @@ button {
 /* Shared badge style */
 .category-badge,
 .status-badge {
-    background-color: #9393f5;
+    background-color: #bdbdbd; /* fallback gray */
     color: black;
     padding: 6px 16px;
     border-radius: 999px;
     font-size: 0.9rem;
-    text-align: center;
     font-weight: bold;
     white-space: nowrap;
+    text-align: center;
 }
 
-/* Optional: status-specific styling (if desired) */
 .status-badge.submitted {
-    background-color: #9393f5;
+    background-color: #2cb0e5;
 }
 .status-badge.in-progress {
     background-color: #f59e42;
 }
-.status-badge.resolved {
-    background-color: #4CAF50;
-    color: white;
+.status-badge.solved {
+    background-color: #34e14b;
 }
 
 /* Optional: category-specific overrides (if needed) */
-.category-badge.canteen {
-    background-color: #e7c763;
+.category-badge.others {
+    background-color: #e7c763; /* Mustard Yellow */
 }
 .category-badge.infrastructure {
-    background-color: #d17070;
+    background-color: #e57373; /* Soft Red */
 }
 .category-badge.administration {
-    background-color: #819FF7;
+    background-color: #4fc3f7; /* Light Sky Blue */
+}
+.category-badge.technical {
+    background-color: #ba68c8; /* Light Purple */
+}
+.category-badge.academic {
+    background-color: #81c784; /* Pastel Green */
+}
+.category-badge.hostel {
+    background-color: #ffd54f; /* Soft Yellow */
+}
+.category-badge.library {
+    background-color: #a1887f; /* Dusty Brown */
+}
+.category-badge.food {
+    background-color: #ffb74d; /* Orange-Peach */
+}
+.category-badge.faculty {
+    background-color: #7986cb; /* Mild Indigo */
+}
+.category-badge.transport {
+    background-color: #4db6ac; /* Teal */
+}
+.category-badge.fees {
+    background-color: #f06292; /* Pink */
+}
+.category-badge.events {
+    background-color: #9575cd; /* Lavender Purple */
 }
 
 /* Action buttons */
