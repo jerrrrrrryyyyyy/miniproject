@@ -1,0 +1,122 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #78c28c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.main-container {
+  width: 100%;
+  max-width: 430px;
+}
+
+.form-box {
+  background-color: #e0e0e0;
+  padding: 35px 30px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.2rem;
+  color: #2e2e2e;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Role Switch */
+.role-tabs {
+  display: flex;
+  position: relative;
+  background-color: transparent;
+  border: 2px solid #2b6777;
+  border-radius: 30px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1;
+  font-weight: bold;
+  color: #2b6777;
+  transition: color 0.3s ease-in-out;
+}
+
+.tab.active {
+  color: white;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 33.3%;
+  height: 100%;
+  background-color: #2b6777;
+  border-radius: 30px;
+  z-index: 0;
+  transition: left 0.3s ease-in-out;
+}
+
+/* Inputs */
+.input-wrapper {
+  margin: 10px 0;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #c1d2d9;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+
+/* Button */
+button {
+  background-color: #2b6777;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+/* Text Below */
+.switch-text {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.switch-text a {
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Notes and Errors */
+.teacher-note {
+  font-size: 0.85rem;
+  color: #333;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}

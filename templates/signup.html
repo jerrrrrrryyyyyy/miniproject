@@ -1,64 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <style>
-        h1 { color: green; }
-        .error { color: red; }
-        .admin-secret { display: none; }
-    </style>
-    <script>
-        function toggleAdminPassword() {
-            const adminOption = document.getElementById("option1");
-            const adminField = document.getElementById("admin-secret");
-            if (adminOption.checked) {
-                adminField.style.display = "block";
-            } else {
-                adminField.style.display = "none";
-            }
-        }
-
-        window.onload = function() {
-            const radios = document.querySelectorAll('input[name="options"]');
-            radios.forEach(radio => radio.addEventListener('change', toggleAdminPassword));
-            toggleAdminPassword();
-        };
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
 </head>
 <body>
-    <h1>Create an account</h1>
+  <div class="main-container">
+    <div class="form-box">
+      <h1 class="title">Complaint Portal</h1>
 
-    {% if error %}
+      <div class="role-tabs">
+        <div class="slider"></div>
+        <div class="tab active" data-role="Student">Student</div>
+        <div class="tab" data-role="Parent">Parent</div>
+        <div class="tab" data-role="Teacher">Teacher</div>
+      </div>
+
+      <h2>SIGN UP</h2>
+      <p class="switch-text">Already have an account? <a href="/login">Login</a></p>
+
+      {% if error %}
         <p class="error">{{ error }}</p>
-    {% endif %}
+      {% endif %}
 
-    <form action="/register" method="post">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required />
+      <form action="/register" method="post" id="signupForm">
+        <input type="hidden" name="options" id="selectedRole" value="Student" />
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" required />
+        <div class="input-wrapper">
+          <input type="text" name="username" placeholder="Username*" required />
+        </div>
+        <div class="input-wrapper">
+          <input type="email" name="email" placeholder="Email *" required />
+        </div>
+        <div class="input-wrapper">
+          <input type="password" name="password" placeholder="Password *" required />
+        </div>
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" required />
-
-        <p>Select Role:</p>
-        <label><input type="radio" name="options" id="option1" value="Teacher"> Teacher</label>
-        <label><input type="radio" name="options" id="option2" value="Student"> Student</label>
-        <label><input type="radio" name="options" id="option3" value="Parent"> Parent</label>
-        
+        <div id="teacher-note" class="teacher-note" style="display: none;">
+          <small>If you sign up as <strong>Teacher</strong>, you must enter the Admin Password.</small>
+        </div>
         {% if message %}
-            <div style="color: orange;">{{ message }}</div>
+          <div style="color: rgb(129, 90, 17);">{{ message }}</div>
         {% endif %}
 
         <button type="submit">Sign Up</button>
-    </form>
-    <nav>
-        <ul>
-            <li><a href="/login">Already have an account? Login</a></li>
-        </ul>
-    </nav>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const slider = document.querySelector('.slider');
+    const selectedRoleInput = document.getElementById('selectedRole');
+    const adminFieldWrapper = document.getElementById('admin-secret-wrapper');
+    const teacherNote = document.getElementById('teacher-note');
+
+    function updateSliderPosition(activeIndex) {
+      slider.style.left = `calc(${(100 / 3) * activeIndex}% )`;
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        selectedRoleInput.value = tab.dataset.role;
+        updateSliderPosition(index);
+
+        if (tab.dataset.role === "Teacher") {
+          adminFieldWrapper.style.display = "block";
+          teacherNote.style.display = "block";
+        } else {
+          adminFieldWrapper.style.display = "none";
+          teacherNote.style.display = "none";
+        }
+      });
+    });
+
+    window.onload = () => updateSliderPosition(0);
+  </script>
 </body>
 </html>
