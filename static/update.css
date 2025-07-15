@@ -45,21 +45,26 @@ select {
 }
 
 button {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #274e13;
+  background-color: #2b6777;
   color: white;
-  border: none;
+  border: 2px solid transparent;
+  padding: 12px 24px;
   border-radius: 12px;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1rem;
+  width: auto;
+  min-width: 120px;
+  margin: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background-color: #1e3910;
+  background-color: white;
+  color: #2b6777;
+  border-color: #2b6777;
 }
+
 
 @media (max-width: 600px) {
   .container {

@@ -89,13 +89,22 @@ body {
 button {
   background-color: #2b6777;
   color: white;
-  border: none;
-  padding: 12px;
-  width: 100%;
-  border-radius: 8px;
-  font-weight: bold;
-  margin-top: 15px;
+  border: 2px solid transparent;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  width: auto;
+  min-width: 120px;
+  margin: 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: white;
+  color: #2b6777;
+  border-color: #2b6777;
 }
 
 /* Text Below */

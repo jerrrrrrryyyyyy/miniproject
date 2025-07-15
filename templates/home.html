@@ -11,7 +11,7 @@
     <div class="header">
     <h1>Hello, {{ current_user.username }}</h1>
     <button class="top-right" onclick="location.href='/logout'">Log Out</button>
-    <button class="bottom-right" onclick="location.href='/adddata'">+ Add Prompt</button>
+    <button class="bottom-right" onclick="location.href='/adddata'">+ Add Complaint</button>
 </div>
 
     {% set role_names = [] %}
@@ -25,9 +25,6 @@
             <!-- Left Section: Complaint Text -->
             <div class="card-left">
                 <h3 class="heading">{{ complaint.complaint_headline }}</h3>
-                {% if 'Teacher' in role_names %}
-                    <h5 class="username">By: {{ complaint.username }}</h5>
-                {% endif %}
                 <p class="description">{{ complaint.complaint_text }}</p>
             </div>
 
@@ -48,14 +45,11 @@
                 <!-- Action Buttons (for Teachers) -->
                 {% if 'Teacher' in role_names %}
                     <a class="card-btn" href="{{ url_for('update_status', complaint_id=complaint.complaint_id) }}">Update</a>
-                    <a class="card-btn" href="/delete/{{ complaint.complaint_id }}">Delete</a>
+                    <a class="card-btn delete" href="/delete/{{ complaint.complaint_id }}">Delete</a>
                 {% endif %}
             </div>
     </div>
     {% endfor %}
 </div>
-
-
 </body>
-
 </html> 

@@ -45,12 +45,45 @@ body {
 
 /* Generic buttons */
 button {
-    padding: 10px 15px;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+  background-color: #2b6777;
+  color: white;
+  border: 2px solid transparent;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  width: auto;
+  min-width: 120px;
+  margin: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: white;
+  color: #2b6777;
+  border-color: #2b6777;
+}
+
+.logout-btn {
+  background-color: #b22222; /* Firebrick: deep red */
+  color: white;
+  border: 2px solid transparent;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  width: auto;
+  min-width: 120px;
+  margin: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: white;
+  color: #b22222;
+  border-color: #b22222;
 }
 
 /* Complaint card container */
@@ -172,12 +205,31 @@ button {
 /* Action buttons */
 .card-btn {
     display: inline-block;
-    background-color: #9393f5;
-    color: black;
+    background: linear-gradient(135deg, #c9d6ff, #e2e2e2); /* Soft pastel blend */
+    color: #2b2b2b;
     text-align: center;
-    padding: 8px 16px;
+    padding: 10px 20px;
     border-radius: 12px;
-    font-weight: bold;
+    font-weight: 600;
     text-decoration: none;
-    width: 100px;
+    width: 110px;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
 }
+
+.card-btn:hover {
+    background: linear-gradient(135deg, #b3c4f5, #dcdcdc);
+    color: black;
+    transform: translateY(-1px);
+}
+
+.card-btn.delete {
+    background: linear-gradient(135deg, #ffcccc, #ffe2e2);
+    color: #8b0000;
+}
+
+.card-btn.delete:hover {
+    background: linear-gradient(135deg, #ffaaaa, #ffdada);
+}
+

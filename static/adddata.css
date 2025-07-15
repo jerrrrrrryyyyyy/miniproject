@@ -99,6 +99,7 @@ textarea {
   width: 100%;
   background-color: #2a5d70;
   color: #fff;
+  border: 2px solid transparent;
   padding: 14px 20px;
   font-weight: bold;
   font-size: 14px;
@@ -110,7 +111,9 @@ textarea {
 }
 
 .submit-btn:hover {
-  background-color: #1e4a59;
+  background-color: white;
+  color: #2a5d70;
+  border-color: #2a5d70;
 }
 
 /* Mobile responsive */
