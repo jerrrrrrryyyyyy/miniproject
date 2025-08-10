@@ -5,19 +5,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-    <div class="logo">
-        <img src="{{ url_for('static', filename='images/openear_logo.svg') }}" alt="Openear">
-    </div>
-    <div>
-        <div class = "hero-text">
+    <div class="hero-container">
+        <div class="logo">
+           <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/openear_logo.svg') }}" alt="Openear">
+            </a>
+        </div>
+
+        <div class="hero-text">
             <h1>Your Voice, Our Action</h1>
             <h4>Because even small complaints deserve big solutions.</h4>
         </div>
-        <div class = "buttons-container">
-            <div class = "buttons">
-                <a href="{{ url_for('login') }}"><button>Login</button></a>
-                <a href="{{ url_for('register') }}"><button>Sign Up</button></a>
-            </div>
+        
+        <div class="buttons">
+            <a href="{{ url_for('login') }}"><button>Login</button></a>
+            <a href="{{ url_for('register') }}"><button>Sign Up</button></a>
         </div>
     </div>
 </body>
