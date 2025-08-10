@@ -13,28 +13,33 @@
   </script>
 </head>
 <body>
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/openear_logo.svg') }}" alt="Openear">
+    </div>
+  </header>
   <div class="container">
-  <h2>Update Complaint Status</h2>
+    <h2>Update Complaint Status</h2>
 
-  <form id="statusForm" method="POST">
-    <label for="complaint_status">Status:</label>
-    <select name="complaint_status" id="complaint_status" required>
-      <option value="Submitted" {% if complaint.complaint_status == "Submitted" %}selected{% endif %}>Submitted</option>
-      <option value="In Progress" {% if complaint.complaint_status == "In Progress" %}selected{% endif %}>In Progress</option>
-      <option value="Solved" {% if complaint.complaint_status == "Solved" %}selected{% endif %}>Solved</option>
-    </select>
+    <form id="statusForm" method="POST">
+      <label for="complaint_status">Status:</label>
+      <select name="complaint_status" id="complaint_status" required>
+        <option value="Submitted" {% if complaint.complaint_status == "Submitted" %}selected{% endif %}>Submitted</option>
+        <option value="In Progress" {% if complaint.complaint_status == "In Progress" %}selected{% endif %}>In Progress</option>
+        <option value="Solved" {% if complaint.complaint_status == "Solved" %}selected{% endif %}>Solved</option>
+      </select>
 
-    <!-- Hidden fields -->
-    <input type="hidden" id="recipientName" value="{{ complaint.user.username }}">
-    <input type="hidden" id="recipientEmail" value="{{ complaint.user.email }}">
-    <input type="hidden" id="complaintTitle" value="{{ complaint.complaint_headline }}">
-    <input type="hidden" id="complaintType" value="{{ complaint.complaint_type }}">
-    <input type="hidden" id="teacherName" value="{{ current_user.username }}">
-    <input type="hidden" id="teacherEmail" value="{{ current_user.email }}">
+      <!-- Hidden fields -->
+      <input type="hidden" id="recipientName" value="{{ complaint.user.username }}">
+      <input type="hidden" id="recipientEmail" value="{{ complaint.user.email }}">
+      <input type="hidden" id="complaintTitle" value="{{ complaint.complaint_headline }}">
+      <input type="hidden" id="complaintType" value="{{ complaint.complaint_type }}">
+      <input type="hidden" id="teacherName" value="{{ current_user.username }}">
+      <input type="hidden" id="teacherEmail" value="{{ current_user.email }}">
 
-    <button type="submit">Update</button>
-  </form>
-</div>
+      <button type="submit">Update</button>
+    </form>
+  </div>
   <script>
     document.getElementById('statusForm').addEventListener('submit', function(e) {
       e.preventDefault();

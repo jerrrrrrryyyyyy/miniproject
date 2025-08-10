@@ -7,11 +7,11 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='adddata.css') }}">
 </head>
 <body>
-  <div class="page-header">
-    <div class="logo">Website logo?</div>
-    <a href="{{ url_for('home') }}"><button class="back-btn">👤 Go back</button></a>
-  </div>
-
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/openear_logo.svg') }}" alt="Openear">
+    </div>
+  </header>
   <div class="form-container">
     <h2>Add Complaint</h2>
     <form action="/add" method="post">
@@ -39,11 +39,9 @@
           </select>
         </div>
       </div>
-
       <div class="form-group">
         <textarea id="complaint_text" name="complaint_text" placeholder="Describe your complaint" required></textarea>
       </div>
-
       <button type="submit" class="submit-btn">CREATE</button>
     </form>
   </div>

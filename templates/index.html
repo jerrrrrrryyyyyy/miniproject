@@ -5,23 +5,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/openear_logo.svg') }}" alt="Openear">
+    </div>
     <div>
-        <div class = "logo"> 
-            <h1>Website logo?</h1> 
-        </div>
-
         <div class = "hero-text">
             <h1>Your Voice, Our Action</h1>
             <h4>Because even small complaints deserve big solutions.</h4>
         </div>
-        
         <div class = "buttons-container">
             <div class = "buttons">
                 <a href="{{ url_for('login') }}"><button>Login</button></a>
                 <a href="{{ url_for('register') }}"><button>Sign Up</button></a>
             </div>
         </div>
-        
     </div>
 </body>
 </html>
