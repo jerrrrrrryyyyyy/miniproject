@@ -12,6 +12,12 @@ body {
   min-height: 100vh;
 }
 
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
 .container {
   background-color: #ffffffB3;
   border-radius: 20px;
