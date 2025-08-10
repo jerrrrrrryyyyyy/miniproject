@@ -1,6 +1,5 @@
-/* Apply a green background and center everything */
 body {
-    background-image: url("/static/images/website bg.svg"); /* or background.png / background.jpg */
+    background-image: url("/static/images/website bg.svg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -9,73 +8,60 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
+
+    /* Center everything vertically & horizontally */
     display: flex;
-    height: 100vh;
     justify-content: center;
     align-items: center;
+    height: 100vh;
     text-align: center;
 }
 
-/* Container for all content */
-div {
-    width: 100%;
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* spacing between elements */
 }
 
-/* Logo text */
-.logo h1 {
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #000;
+
+.logo img {
+    width: 350px;
+    height: auto;
+    
 }
 
-/* Hero main heading */
 .hero-text h1 {
     font-size: 60px;
     font-weight: 800;
-    margin: 10px 0;
     color: #000;
+    margin: 0;
 }
 
-/* Subtext/tagline */
-.hero-text p {
-    font-size: 14px;
+.hero-text h4 {
+    font-size: 18px;
+    font-weight: normal;
     color: #444;
-    margin-bottom: 30px;
-    opacity: 0.50;
+    opacity: 0.7;
+    margin-top: 10px;
 }
 
-/* Button container */
-.buttons-container {
-    display: flex;
-    justify-content: center;
-}
-
-/* Spacing between buttons */
 .buttons a {
-    margin: 0 10px;
     text-decoration: none;
+    margin: 0 10px;
 }
 
-/* Button styling */
 .buttons button {
-  background-color: #2b6777;
-  color: white;
-  border: 2px solid transparent;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1rem;
-  width: auto;
-  min-width: 120px;
-  margin: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    background-color: #2b6777;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .buttons button:hover {
-  background-color: white;
-  color: #2b6777;
-  border-color: #2b6777;
+    background-color: #1e4e5a;
 }
-

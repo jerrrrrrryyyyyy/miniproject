@@ -33,7 +33,22 @@ body {
     grid-row: 1;
     justify-self: end;
     align-self: start;
+    margin-top: -5px; 
+    background-color: #b22222; /* Firebrick: deep red */
+    color: white;
+    border: 2px solid transparent;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    width: auto;
+    min-width: 120px;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
+
+
 
 /* Add Prompt button at bottom-right */
 .header .bottom-right {
@@ -42,6 +57,7 @@ body {
     justify-self: end;
     align-self: end;
 }
+
 
 /* Generic buttons */
 button {
@@ -65,20 +81,6 @@ button:hover {
   border-color: #2b6777;
 }
 
-.logout-btn {
-  background-color: #b22222; /* Firebrick: deep red */
-  color: white;
-  border: 2px solid transparent;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1rem;
-  width: auto;
-  min-width: 120px;
-  margin: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
 
 .logout-btn:hover {
   background-color: white;
@@ -232,4 +234,5 @@ button:hover {
 .card-btn.delete:hover {
     background: linear-gradient(135deg, #ffaaaa, #ffdada);
 }
+
 

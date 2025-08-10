@@ -6,11 +6,23 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
+
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.logo img {
+  max-height: 50px; /* adjust as needed */
+  width: auto;
+}
+
 
 .main-container {
   width: 100%;
