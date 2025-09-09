@@ -7,7 +7,7 @@ import uuid
 
 app = Flask(__name__, template_folder='templates')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///complaints.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:// StudentDatas.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'groupproject'
 app.config['TEACHER_SECRET'] = 'Vastadmin1'
@@ -61,15 +61,18 @@ class Role(db.Model):
     name = db.Column(db.String(80), unique = True, nullable = False)
 
 
-class Complaint(db.Model):
-    __tablename__ = 'complaint'
-    complaint_id = db.Column(db.Integer, primary_key = True)
-    complaint_headline = db.Column(db.String(120), nullable = False)
-    complaint_text = db.Column(db.String(500), nullable = False)
-    complaint_type = db.Column(db.String(50), nullable = False)
-    complaint_status = db.Column(db.String(50), nullable = False, default = 'Submitted')
+class StudentData(db.Model):
+    __tablename__ = 'student_data'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    firstSem = db.Column(db.Float, nullable=False)
+    secondSem = db.Column(db.Float, nullable=False)
+    attendance = db.Column(db.Float, nullable=False)
+    internalMarks = db.Column(db.Float, nullable=False)
+    paidFees = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
-    user = db.relationship("Users", backref = "complaints")
+    user = db.relationship("Users", backref = "student_data")
 # Login loader
 
 @login_manager.user_loader
@@ -90,10 +93,10 @@ def home():  # Home page
     role_names = [role.name for role in current_user.roles]
 
     if 'Teacher' in role_names:
-        comp = Complaint.query.all()
-    else:     # For Student or Parent, only show their own complaints
-        comp = Complaint.query.filter_by(user_id=current_user.id).all()
-    return render_template('home.html', complaints=comp, role_names=role_names)
+        comp = StudentData.query.all()
+    else:     # For Student or Parent, only show their own StudentDatas
+        comp = StudentData.query.filter_by(user_id=current_user.id).all()
+    return render_template('home.html', StudentDatas=comp, role_names=role_names)
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():  # Login route for user authentication (if users already have an account)
@@ -169,46 +172,28 @@ def students():
 
 @app.route('/adddata')
 @login_required
-def add_data(): # Renders the complaint submission form.
+def add_data(): # Renders the StudentData submission form.
     return render_template('adddata.html')
 
-@app.route('/add', methods=['POST'])
-@login_required 
-def add_complaint(): # Adds a new complaint submitted by a logged-in user.
-    complaint_headline = request.form.get("complaint_headline")
-    complaint_text = request.form.get("complaint_text")
-    complaint_type = request.form.get("complaint_type")
 
-    new_complaint = Complaint(
-        complaint_headline = complaint_headline,
-        complaint_text = complaint_text,
-        complaint_type = complaint_type,
-        user_id = current_user.id
-    )
-
-    db.session.add(new_complaint)
-    db.session.commit()
-
-    return redirect(url_for('home'))
-
-@app.route('/update_status/<int:complaint_id>', methods=["GET", "POST"])
+@app.route('/update_status/<int:StudentData_id>', methods=["GET", "POST"])
 @role_required('Teacher')
-def update_status(complaint_id): # Allows teachers to update the status of a complaint.
-    complaint = Complaint.query.get_or_404(complaint_id)
+def update_status(StudentData_id): # Allows teachers to update the status of a StudentData.
+    StudentData = StudentData.query.get_or_404 (StudentData_id)
 
     if request.method == "POST":
-        new_status = request.form.get("complaint_status")
-        complaint.complaint_status = new_status
+        new_status = request.form.get("StudentData.status")
+        StudentData.status = new_status
         db.session.commit()
         return redirect(url_for('home'))
 
-    return render_template("update_status.html", complaint=complaint)
+    return render_template("update_status.html",StudentData=StudentData)
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 @role_required("Teacher")
 @login_required
-def erase(id): # Deletes a complaint from the database. Only accessible by teachers.
-    data = Complaint.query.get(id)
+def erase(id): # Deletes a StudentData from the database. Only accessible by teachers.
+    data = StudentData.query.get(id)
     db.session.delete(data)
     db.session.commit()
     return redirect(url_for('home'))
@@ -223,8 +208,7 @@ if __name__ == '__main__':
         if Role.query.count() == 0:
             teacher = Role(name = 'Teacher')
             student = Role(name = 'Student')
-            parent = Role(name = 'Parent')
-            db.session.add_all([teacher, student, parent])
+            db.session.add_all([teacher, student])
             db.session.commit()
             print("Default roles created.")
         else:
