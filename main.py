@@ -10,8 +10,8 @@ app = Flask(__name__, template_folder='templates')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///instance/complaints.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'groupproject'
-app.config['TEACHER_SECRET'] = 'Vastadmin1'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['TEACHER_SECRET'] = os.environ.get('TEACHER_SECRET')
 
 db = SQLAlchemy(app)
 
