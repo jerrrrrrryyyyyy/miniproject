@@ -4,10 +4,11 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 import uuid
+import os 
 
 app = Flask(__name__, template_folder='templates')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:// StudentDatas.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///instance/complaints.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'groupproject'
 app.config['TEACHER_SECRET'] = 'Vastadmin1'
