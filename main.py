@@ -101,12 +101,14 @@ def index():  # Hero page with login/signup
 @login_required
 def home():  # Home page
     role_names = [role.name for role in current_user.roles]
-
     if 'Teacher' in role_names:
-        comp = StudentData.query.all()
-    else:     # For Student or Parent, only show their own StudentDatas
-        comp = StudentData.query.filter_by(user_id=current_user.id).all()
-    return render_template('home.html', StudentDatas=comp, role_names=role_names)
+        # Teachers should see ALL complaints
+        complaints = Complaint.query.all()
+    else:      
+        # Students should only see their own submitted complaints
+        complaints = Complaint.query.filter_by(user_id=current_user.id).all()
+    # Pass the data to the template using a clearer name like 'complaints'
+    return render_template('home.html', complaints=complaints, role_names=role_names)
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():  # Login route for user authentication (if users already have an account)
@@ -225,7 +227,6 @@ def erase(id): # Deletes a StudentData from the database. Only accessible by tea
     db.session.delete(data)
     db.session.commit()
     return redirect(url_for('home'))
-
 
 # Main block to run the app
 
