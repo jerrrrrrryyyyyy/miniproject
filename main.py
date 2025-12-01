@@ -223,7 +223,7 @@ def update_status(complaint_id):
 @role_required("Teacher")
 @login_required
 def erase(id): # Deletes a StudentData from the database. Only accessible by teachers.
-    data = StudentData.query.get(id)
+    data = Complaint.query.get(id)
     db.session.delete(data)
     db.session.commit()
     return redirect(url_for('home'))
