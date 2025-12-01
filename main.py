@@ -70,7 +70,6 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(80), unique = True, nullable = False)
 
-
 class StudentData(db.Model):
     __tablename__ = 'student_data'
     id = db.Column(db.Integer, primary_key=True)
@@ -206,20 +205,21 @@ def add_complaint(): # Adds a new complaint submitted by a logged-in user.
 
     return redirect(url_for('home'))
 
-@app.route('/update_status/<int:StudentData_id>', methods=["GET", "POST"])
+@app.route('/update_status/<int:complaint_id>', methods=["GET", "POST"])
 @role_required('Teacher')
-def update_status(StudentData_id): # Allows teachers to update the status of a StudentData.
-    StudentData = StudentData.query.get_or_404 (StudentData_id)
+def update_status(complaint_id):
+    complaint = Complaint.query.get_or_404(complaint_id)
 
     if request.method == "POST":
-        new_status = request.form.get("StudentData.status")
-        StudentData.status = new_status
+        new_status = request.form.get("complaint_status")
+        complaint.complaint_status = new_status
         db.session.commit()
         return redirect(url_for('home'))
-
-    return render_template("update_status.html",StudentData=StudentData)
+    
+    return render_template("update_status.html", complaint=complaint)
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
+
 @role_required("Teacher")
 @login_required
 def erase(id): # Deletes a StudentData from the database. Only accessible by teachers.
