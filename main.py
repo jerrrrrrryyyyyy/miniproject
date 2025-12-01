@@ -185,6 +185,24 @@ def students():
 def add_data(): # Renders the StudentData submission form.
     return render_template('adddata.html')
 
+@app.route('/add', methods=['POST'])
+@login_required 
+def add_complaint(): # Adds a new complaint submitted by a logged-in user.
+    complaint_headline = request.form.get("complaint_headline")
+    complaint_text = request.form.get("complaint_text")
+    complaint_type = request.form.get("complaint_type")
+
+    new_complaint = Complaint(
+        complaint_headline = complaint_headline,
+        complaint_text = complaint_text,
+        complaint_type = complaint_type,
+        user_id = current_user.id
+    )
+
+    db.session.add(new_complaint)
+    db.session.commit()
+
+    return redirect(url_for('home'))
 
 @app.route('/update_status/<int:StudentData_id>', methods=["GET", "POST"])
 @role_required('Teacher')
