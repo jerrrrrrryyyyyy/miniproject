@@ -44,7 +44,16 @@ roles_users = db.Table('roles_users',
 )
 
 # User model representing students or teachers.
-
+class Complaint(db.Model):
+    __tablename__ = 'complaint'
+    complaint_id = db.Column(db.Integer, primary_key = True)
+    complaint_headline = db.Column(db.String(120), nullable = False)
+    complaint_text = db.Column(db.String(500), nullable = False)
+    complaint_type = db.Column(db.String(50), nullable = False)
+    complaint_status = db.Column(db.String(50), nullable = False, default = 'Submitted')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
+    user = db.relationship("Users", backref = "complaints")
+    
 class Users(UserMixin, db.Model):
 
     __tablename__ = 'users'
